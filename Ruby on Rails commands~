@@ -173,7 +173,7 @@ p[
 
 Famous Quote by Matz
 
-	I wanted a scripting language that as more powerful than Perl, and more OO than python. That's why I decided o desing my own languages."
+	I wanted a scripting language that as more powerful than Perl, and more OO than python. That's why I decided o desing my own languages."'
 
 Short hand method for getting and setting variables within the class
 
@@ -186,7 +186,7 @@ use attr_writer and attr_reader
 Classes are defined using the keyword class followed by the name of the class. The name must begin with a capital, and the convention is to use CamelCase.
 
 
-"
+
 class MyClass
 	def boo # a getter method
 		return @boo
@@ -230,6 +230,66 @@ end
 	# The keyword self can be used inside a object's methods in order to refere to current object.
 
 Inheritence, Mixins and Extending Classes.
+
+# Only single inheritence is supporeted; however, the mixin capability associated with modules basically gives your multiple inheritence.
+
+# Classes are never closed, you can always add methods to an existing class
+	- This applies to the classes you write as well as the standart, build in classes
+	- You simply open up a class definition for an existing class, and the new contents you specify will be added to whatever's already defined for that class.
+
+Ex. 
+
+Class Fixnum
+	def previous
+		return self -1
+	end
+end
+
+'
+
+# Specifying Access
+
+-- Within a class defintion you may specify access levels using the keywords public, private and protected.
+
+-- The behaviour is a little different than in C++ or Java :
+	- public - no access control, can be called by anyone.
+	- protected - can be invoked only by objecs of the defining class and its subclasses.
+	- private - can only be called in the context of the current object, without an object reference on the LHS, i.e., two objects of the same class cannot invoke each others private methods. Thus, the receiver of a private method is always self.
+
+
+-- By defauly, every method is a lass is public, and every instance variable is protected.
+
+# Accessors
+
+-- There is a shorthand way of providing accessors for an object's' attributes":"
+
+class MyClass
+	attr_accessor :boo
+end
+
+-- Here's a better' example:
+
+class Person
+	attr_accessor :first_name, :last_name
+end
+
+will create attributes (instance variables) for first_nae and last_name ,as well as getter and setter methods for each.
+
+-- If you only want a getter method, use attr_reader,and if you only want a setter, use attr_writer.
+
+# Inheritence
+
+-- The synatx for inheritence is:
+	class NewClass < SuperClass
+	end
+
+-- THe initialize method, which is always private, is used to create a constructor that is invoked by calling enw on a class name . E.g., a = Array.new
+
+--You can create a module with its own namespace by using the keyword module, and include a number of classes within it. You can include a module within another program by using the keyword require, e.g. require 'module_name'
+
+-- Within a class, you use the keyword include to mixin a module. This makes all the methods defined in that module a part of the class that includes the module.
+
+
 
 
 

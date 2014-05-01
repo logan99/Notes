@@ -173,7 +173,7 @@ p[
 
 Famous Quote by Matz
 
-	I wanted a scripting language that as more powerful than Perl, and more OO than python. That's why I decided o desing my own languages."
+	I wanted a scripting language that as more powerful than Perl, and more OO than python. That's why I decided o desing my own languages."'
 
 Short hand method for getting and setting variables within the class
 
@@ -186,7 +186,7 @@ use attr_writer and attr_reader
 Classes are defined using the keyword class followed by the name of the class. The name must begin with a capital, and the convention is to use CamelCase.
 
 
-"
+
 class MyClass
 	def boo # a getter method
 		return @boo
@@ -230,6 +230,158 @@ end
 	# The keyword self can be used inside a object's methods in order to refere to current object.
 
 Inheritence, Mixins and Extending Classes.
+
+# Only single inheritence is supporeted; however, the mixin capability associated with modules basically gives your multiple inheritence.
+
+# Classes are never closed, you can always add methods to an existing class
+	- This applies to the classes you write as well as the standart, build in classes
+	- You simply open up a class definition for an existing class, and the new contents you specify will be added to whatever's already defined for that class.
+
+Ex. 
+
+Class Fixnum
+	def previous
+		return self -1
+	end
+end
+
+'
+
+# Specifying Access
+
+-- Within a class defintion you may specify access levels using the keywords public, private and protected.
+
+-- The behaviour is a little different than in C++ or Java :
+	- public - no access control, can be called by anyone.
+	- protected - can be invoked only by objecs of the defining class and its subclasses.
+	- private - can only be called in the context of the current object, without an object reference on the LHS, i.e., two objects of the same class cannot invoke each others private methods. Thus, the receiver of a private method is always self.
+
+
+-- By defauly, every method is a lass is public, and every instance variable is protected.
+
+# Accessors
+
+-- There is a shorthand way of providing accessors for an object's' attributes":"
+
+class MyClass
+	attr_accessor :boo
+end
+
+-- Here's a better' example:
+
+class Person
+	attr_accessor :first_name, :last_name
+end
+
+will create attributes (instance variables) for first_nae and last_name ,as well as getter and setter methods for each.
+
+-- If you only want a getter method, use attr_reader,and if you only want a setter, use attr_writer.
+
+# Inheritence
+
+-- The synatx for inheritence is:
+	class NewClass < SuperClass
+	end
+
+-- THe initialize method, which is always private, is used to create a constructor that is invoked by calling enw on a class name . E.g., a = Array.new
+
+--You can create a module with its own namespace by using the keyword module, and include a number of classes within it. You can include a module within another program by using the keyword require, e.g. require 'module_name'
+
+-- Within a class, you use the keyword include to mixin a module. This makes all the methods defined in that module a part of the class that includes the module.
+
+
+
+
+# Objects and Variables
+
+-- Everything in Ruby is an Object, the Objec calss is the parent class of all classes in Ruby. Its methods are therefore available to all objects unless explicitiy overridden.
+
+
+-- An important method in the Object class is class(). It returns the "type" of an object.
+
+	> 1.class() # => Fixnum
+	> 1.class # => Fixnum
+	> 1.0.class # => Flaot
+	> "Foo".class #=>String
+
+-- Notice how parentheses are optional - they are commonly ommiteted.
+
+-- The language syntax is sensitive to the capitalization of identifiers, in most cases
+treating capitalized variables as constants.
+
+-- Ruby does not use variable declarations, if you assign a value to a literal, an apporpiate variable named  after that literal is created.
+
+Ex, >a = 2  # => 2
+    > a     # = > 2
+
+-- In this example, a has type Fixnum, this is an integer data in Ruby. The other integer type is Bignum (represents numbers of arbitary size).
+
+Ex. 
+	> a ="2" 	# => "2"
+
+# Variables
+
+-- Important. All assignments are done by reference in Ruby. i.e. a variable just holds a reference to an object, and does not care about the type of the object.
+
+-- Ruby supports parallel assignments.
+Ex. You can easily swap the values stored in two variables:
+
+	> a = 2 	# => 2
+	> b =1 		# => 1
+	> puts a,b	# 2
+			# 1
+			# => nil
+	a, b = b, a 	# => [1,2] // parallel assignments.
+
+-- Ruby uses simple naming conventions to denote the scope of variables:
+	-- name - could be a local variable
+	-- @name - an instance variable
+	-- @@name - a class variable
+	-- $Name - a global variable.
+
+	The @ and $ sigils enchance readability by allowing the programer to easily identify the roels of each variable.
+
+-- Furthermore, local variable must begin with a lowercase letter, and the convention
+is to use underscores, rather than camel case, for multi-word names.
+
+-- Constants are any name that starts with an uppercase letter, and the convention is to use underscores.
+
+-- Classes and modules are treated as constants, so they being with uppercase letters,
+and the converntion is to use camel case.
+
+
+# Strings, Regular Expressions and Symbols
+
+# Strings
+
+-- You can create literals in Ruby using either single or double quoes.
+-- You can do a little bit more with double quoted strings. E.g., you can insert 
+arbitrary Ruby expressions using string interpolation.
+
+Ex. 
+
+> "360 degress = #{2*Math::PI} radians"
+=> "360 degrees = 6.28318307179586 radians"
+
+-- If you enclose a string in single backquote (backticks), the string will be execturd as a command in the underlying OS.
+
+Ex. 
+
+> `date`
+=> "Tue Oct 15 09:10:21 MDT 2013\n"
+
+-- Strings in Ruby are mutable , as in C/C++ , but unline Java.Thus, each time Ruby encountersa new string literal, it create a new String Object. i.e. if you're' creating a string literal within a loop, each iteration will create a new String Object.
+-- The ruby String class contains a number of methods which can be used to manipulate strings.
+
+Ex. 
+
+> name = "Homer Blimpson" #=> "Home Blimpson"
+> name.length # =>14
+> name[6] # =>"B"
+> name[6..14] #=> "Blimpson"
+> "Bart " + name[6..14] #=> "Bart Blimpson"
+> name.encoding #=? #<Encoding:UTF-8>
+
 
 
 
