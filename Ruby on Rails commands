@@ -384,6 +384,148 @@ Ex.
 
 
 
+# Regular Expressions
+
+-- Ruby has a regular expression class,called Regexp,that is closely related to strings.
+-- A regular expressions provides a concise and flexible means for mathcing strings of text, such as particular characters, words, or  patterns of characters.
+
+-- In Ruby , a regular expression in writen in the form of:
+	/pattern/modifiers
+	where "pattern" is the regular expression itself, and "modifiers" are a series of characters indicating various options. The "modifiers" part is optional. This syntax is borrowed from Perl.
+
+-- To test if a particular Regex matches (part of) a string, use the =~ operator. This operator returns the character position in the string of the start of the match (which evaluates to true in a boolean test), or nil if no match was found (which evaluates to false).
+
+Ex. "Homer" =~ /er/ #=> 3
+
+-- The preceding table only contained a partial list of the special characters that can be used in a Ruby regular expression. Consult a Ruby reference for more details.
+
+-- Regular expression are often used to process strings.
+Ex. The following Ruby expression will replace all of the non-digit characters in phone
+with " ". i.e., it will strip everything out of the phone numbers, expect digits:
+	phone.gsub!(/\D/, "")
+
+-- Regular expression are commonly used to validate emails, phone numbers , and other user-suppleid input..
+
+# Symbols
+
+-- Ruby symbols are also closely related to strings.
+-- A ruby interpreter maintains a symbol table where it stores the name of all classes, methods and variables.
+-- You can add your own symbols to this table.Specifically, a symbol is created if you
+precede a name with a colon.
+Ex. 
+	atrr_reader :row, :col
+
+-- Ruby Symbol are used to represent names and strings; however unlike String objects, symbols of the same name and initialized and exist in memory only once during a Ruby session.
+
+-- Ruby symbols are immutable , and cannot be modified during runtime.
+
+Ex. 
+	:name = "Home" 		# => will yield an error.
+
+
+-- There's a big' space advantage associated with symbols , as each unique is only stored once in memory. Multiple strings with the same name my existin memory
+
+Ex.
+
+puts :name.object_id => yields 20488
+puts :name.object_id #=> yields 20488
+puts "name".object_id #=> yields 2168472820
+puts "name".object_id #=> yields 2168484060
+
+-- When should you use a string and when should you use a symbol?
+General rules of thumb:
+	-- if the contents(i.e., the sequence of characters) of the object is important
+, e.g., if you need to manipulate these characters , use a string.
+
+	-- if the identity of the object is imporatnt(in which case you probably don't want to ma'nipulate the characters), use a symbol.
+
+
+# Expressions and Control Structures.
+
+-- The ruby syntax is expression oriented.
+
+-- Everything in Ruby is treated as an expression and therefore evaluates to something.
+
+Ex. control structures for conditional execution or looping, which would be treated as statements in other languages, are treated as expessions in Ruby.
+
+
+In ruby, if, case and for structures return the value of the last expression evaluaed within the structure.
+
+
+-- Ruby has a rich syntax for expressing conditionals  - the most basic is:
+	if expression
+		code
+	end
+
+where code is executed if and only if the conditonal expression evaulates to something other than false or nil.
+
+-- Basic elsif control structures.
+
+
+
+# collections,Blocks and Iterators
+
+--Ruby contains a number of collection classes -- these are classes that can be used to store collections of data.
+
+-- The most important collection classes in Ruby and Array and Hash. In addition, a Set class was recently added to teh language.
+
+--Each of thee collection classes includes the Enumerable module as a mixin. Thus, they share a common set of methods provided by Enumerable.
+
+-- The Enumerable module provides iterator methods that can be used to iterate through 
+(and operate on) each element in a collection.
+
+-- Arrays are used extensively in Rails controllers: 
+	
+	def index
+		@posts = Post.all
+	end
+
+// the above code takes all the post and assign it to instance variable @posts.
+
+-- Arrays can store more 
+
+
+# Code Blocks
+
+-- A block consits of multiple lines of code, enclosed in curly braces, that can be passed as a parameter to a method.
+
+-- Using this feature it is easy to buld code libraries which can delegate varying fucntionality to code blocks to be build later.
+
+-- Important : A block may appear only in the source if it is adjacent to a method call
+(on the same line as the method call's last parameter).
+'
+
+-- A block is inoked using the yield statement.
+
+Ex. 
+
+	def three_times
+		yield
+		yield
+		yield
+	end
+
+> three_times {puts "Hello"}
+
+will print "Hello"three times..
+
+# Iterators
+
+-- In ruby, the various loop strutures are rarely used -- It is more common to use iterators
+
+-- The defining feature of an iterator method is that it invokes a block of code ,applying it to each element in a collection.
+
+-- A collection class that includes the Enumerable module is required to supply an each method. This method must yeild the successive members of the colleciton.
+
+-- Iterators work because you can pass parameter into blocks.
+
+Ex. The each method in the Enumerable module works something like:
+
+def each
+	for each item in the collection
+		yield (item)
+	end
+end
 
 
 
