@@ -1,0 +1,240 @@
+//create new application
+>>>rails new Blog
+
+//change to blog directory
+>>>cd Blog
+
+//command to run the rails server
+>>>rails server
+
+//generate the post
+>>>rails generate scaffold post title:string body:text
+
+//generate the comment
+>>>rails generate scaffold comment post_id:integer body:text
+
+// create the post and comment database tables using:
+>>>rails db:migrate
+
+//a list of all the URLs currently recognized by your application will be provided.
+>>>rake routes
+
+Each time we ran the scaffold generator in our blog application, Rails
+created a database migration file and placed it in the db/migrate
+directory.
+Rails uses the rake command to run these migrations, which creates
+a schema, from which appropriate databases can then be created.
+Because migrations can also be used to undo the work of previous
+migrations (e.g., to make corrections), they are timestamped, and
+executed in the order they were created. The filename contains the
+timestamp
+
+
+//Connect comment with post by editing the model for both
+// in comment add
+	class Comment < ActiveRecord::Base
+	belongs_to :post
+	end
+//in post
+	class Post < ActiveRecord::Base
+	has_many :comments, dependent: :destroy
+	end
+
+Dependent makes sure if a post is deleted then all the dependent comments are deleted as well.
+
+//now run rake routes to see update routes
+
+one can use rake console to run commands to verify the setup
+
+p = Posts.all
+p[0].comments //return all the comments for 1st post
+p[0].commnets.count // retruns the number of comments for 1st post
+Similarily
+q= Comments.all
+and so on
+
+//CRUD -- Create Read Update Delete .. four basic opeartions on the contents of the blog
+
+//Validation
+
+Data Validation is the process of ensuring your web application operates on
+clean, correct and useful data.
+
+Ex - Ensure a user provides a valid email address,phone number, etc.
+	-- Ensure that inputs (505) 255-1234, 505-255-1234..
+
+Ensure that"Business rules" are not being violated, e.g., a comment cannot be stored without a postID
+
+ --> The most common web application security weakness is failure to validate client-side input -SQL injection, cross-site scripting and buffer overflow attacks are enabled.
+
+
+Data Validation can happen on client side using javascript/HTML5
+
+In case of web application, controller-level and model -level are used to validate
+
+Database stored procedures can also be used for data validation.
+
+Client-Side -- Involves checking that HTML forms are filled out correctly.
+	- Javascript, running in the browser, has traditionally been used.
+	- HTML5 now has more specific "input types" that can be checked, along with 		the "required" attribute.
+
+	If javascript is turned off in the browser, hacker can bypass the check.
+
+	If server checks for validation, it can grab a lot of time.	
+
+	Works best when combined with server-side validations.
+
+Server-Side -- Checks made after an HTML form has been submited.
+	- Database(stored procedures) - Database-dependent, so not portable.
+	Useful if many applications are using the database.
+	- Controller-Level - We'll see later that you don't want to put too much logi in the controller(keep them skinny).
+	- Model-level - A good way to ensure that only valid data is stored in your database, in a database agnostic way.
+
+
+ActiveRecord Callbacks
+
+	-- We can think of the objects in an OO system as having a lifecycle --
+	they are first created, can later be updated and also destroyed.
+	-- ActiveRecord objects have methods that can be called in order to ensure 
+	integrity at teh various stages of their lifecycle.
+
+	ex. 
+ 		-- Don't create a new object if the user already exists in the 			database.
+		-- Ensure that all of an object's attributes are valid bfore allowing 			it ot be saved to the database.
+		-- When destorying an object , destory all the objecs that depend on 			it.
+
+
+	-- Callbacks are method that get at certain points in an ActiveRecords object's
+	lifecycle -- they are "hooks" into the lifcyle, allowing' you to trigger logic
+	before or after the state of an object changes.
+
+Validations
+	-- Validations are a type of ActiveRecord callback that can be sued to ensure 		only valid data is stored in your Rails databases.
+	-- The create, save and update methods trigger validations, and will only allow
+	a valid ActiveRecord object to be saved to the database.
+
+	--Validations are defined in your models.
+
+	Ex. 
+	 class Person < ActiveRecord::Base
+		Validates_presence_of :name //methods
+		validates_numerically_of :age, :only_integer => true
+		valdiates_conformation_of :email
+		validates_length_of :password, :in =>8..20
+	 end
+
+
+Add validate_presence_of :body and validate_presence_of :title to the Post.rb file in models
+
+and similarily add validate_presence_of :post_id and validate_presence_of :body
+
+
+For nesting the comments under the posts modify the routes.rb file in the config folder.
+
+BlogApp::Application.routes.draw do
+  resources :comments
+
+  resources :posts do
+    resources :comments
+  end
+
+
+
+
+Introduction to Ruby Programming Language
+
+ -- Background
+ -- Classes and Inheritance
+ -- Objects and Variables
+ -- Strings, Regular Expressions and Symbols
+ -- Expressions and Control Structures
+ -- Collections,Blocks and Iterators
+p[
+## Ruby Programming Language
+
+* Rails was built using the Ruby programming language.
+* Ruby code shows up in models:
+	class Post < ActiveRecord::Base
+	end
+
+	views:
+	    <%= @post.title %>
+	
+	contollers:
+	
+	def destroy
+		@post.destroy
+		respond_to do |format|
+			format.html {redirect_to_posts_url}
+			format.json {head :no_content}	
+		end
+	end
+
+
+Famous Quote by Matz
+
+	I wanted a scripting language that as more powerful than Perl, and more OO than python. That's why I decided o desing my own languages."
+
+Short hand method for getting and setting variables within the class
+
+class Myclass
+	attr_accessor :boo
+end
+
+use attr_writer and attr_reader
+
+Classes are defined using the keyword class followed by the name of the class. The name must begin with a capital, and the convention is to use CamelCase.
+
+
+"
+class MyClass
+	def boo # a getter method
+		return @boo
+	end
+	def boo=(val)
+		@boo = val
+	end
+end
+
+mc = MyClass.new
+boo =1
+boo => 1
+
+# There is no return value specificd in the methods. Rny methods have implicit return values - the value of the last expression executed in a method is its return value.
+
+# The return statement still exist, but you' dont need to use it.
+
+def min(x,y)
+	if x<y then x else y end
+end
+
+# When invoking a method, parenthesis are optional
+
+# Class methods are creared in the same way as normal methods, except they are prefixed by the keyword self.
+
+Ex. 
+
+class MyClass
+	def self.cls_method
+		"MyClass type"
+	end
+end
+
+> MyClass.cls_method # => "MyClass Type"
+
+# In ruby the last character of a method name is often used to indicate its behaviour:
+
+	# if the method ends with a question mark it indicates that the return value is boolean
+	# if the method ends with an exclamation , it indicated that the method can change the state of the object
+	# In the previous cae, it is common to also provide a non-exclamation version of the method, which indicates that the modifies a copy of the object.
+	# The keyword self can be used inside a object's methods in order to refere to current object.
+
+Inheritence, Mixins and Extending Classes.
+
+
+
+
+
+
+
+

@@ -1,0 +1,54 @@
+__Course Name__ : _Malicious Software and It's Underground Economy: Two Sides to Every Story_
+
+__Course Provider__ : _Coursera_
+
+__Course Provider University__ : _University of London_
+
+__Date__ : __30/04/14__
+
+
+# Preview
+
+This course aims at teaching students about malicious software and their analysis(Static and Dyamic). It also looks at the underground economy that regulates malicious software. 
+
+## Why Should we care?
+
+__A botnet takeover storytelling__ :
+
+* The Botnet Threat
+	A network of compromised machines (bots) controlled by a bot master
+	Responsible for(non-exhausitve list):
+		* Large-scale network probing (i.e., scanning activities)
+		* Launching Distributed Denial of Service(DDos) attacks
+		* Sending large-scale unsolicited emails (SPAM)
+		* Click-fraud campaign
+		* Information theft
+	Shift from a for-fun activity to for profit 
+
+* The Torpig Botnet
+
+	* Trojan horse
+		* Distributed via the Mebroot "malware platform"
+		* Injects itself into 29 different applications.
+		* Steals sensitive information
+		* HTTP injection for phishing
+		* Uses "encrypted" HTTP as Command & Control (C&C) protocol.
+		* Uses a resilient approach (domain flux) to contact a C&C server.
+	* Mebroot
+		* Spreads via Drive-by Downloads
+		* Sophisticated rootkit
+
+## Data Collection Priciples
+
+__Principle 1__: the hijacked botnet should be operated so tha any harm and/or damage to victims and targets of attacks would be minimized
+	* Always responded with okn message
+	* Never sent new/blank configuration file
+
+__Principle 2__ :the sinkholed botnet should collect enough information to enable notification and remediation of affected parties.
+	* Worked with law enforceent (FBI and DoD Cybercrime Units)
+	* Worked with bank security officers
+	* Worked with ISPs
+
+
+
+
