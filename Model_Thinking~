@@ -36,6 +36,7 @@ Why Model?
 * Technical Details
 	- Measures, Proofs (Easy, Medium, Hard)
 	- Practice Problems
+
 * Fertility
 
 
@@ -78,7 +79,7 @@ Ex. We want to study how people choose to go to restuarants.
 
 Another Example :
 
-	1. We want to drop the earth through a spiral ring. For that, we have to make sure that there is enough space to go through the ring. Let's make a 1 diameter space for the earth to slip by.
+	1. We want to drop the earth through a spiral ring. For that, we have to make sure that there is enough space for earth to go through the ring. Let's make a 1 diameter space for the earth to slip by.
 
 	Circumference of the Cirlce = pie * Diameter
 	Circumference of the Earth = pie * Diameter(E)
@@ -104,19 +105,19 @@ We communicate with the help of the model. Like in political Systems.
 
 ## Use and Understand Data
 
-1. Undertand Patterns. e.g., straight line, increaing straight line etc.
+1. Undertand Patterns. e.g., straight line, increasing straight line etc.
 2. Predict Points. e.g., we want to predict something, like the price of the housing through linear model.
 3. Produce Bounds.
 4. Retrodict -- How good the model is.
 5. Predict Other --- that is not clear but can be predicted.
-6. Infrom Data Collection.
+6. Inform Data Collection.
 	-- Teacher Quality
 	-- Parential Status
 	-- Income
 	-- Class Status
 	-- Technology
-	-- Healths.
-	-- Students.
+	-- Health
+	-- Students
 7. Estimate Hidden parameters.
 8. Calibrate -- Constructing Model by calibrating.
 
@@ -186,23 +187,227 @@ Schelling is trying to understand the emperical phenomenon. Emperical Phenomenon
 * Segregation by Income.
 
 Red dot represent causician and so on...there is map described racial segregation.
-Again same thing doen with Segregation by Income. It's very stark.
+Again same thing done with Segregation by Income. It's very stark.
 
 
 People may be racist and we can confirm this with the help of a model.
 
 Schelling's model takes a look at where people want to live. 
 
-Micromotives not equal Macrobehaviour
+Micromotives not equal Macrobehaviour. People are resilient to the idea of racisim and they only want may be like 3/7 of their neighbours to be alike. But on macro level, this is not the case, people are segregated by race and on large proportions.  That why it is said that micromotives =/ macromotives.
 
-Tipping phenomenon in Shelling Model. If one moves, other have to move , this is exodus tip. 
+Tipping phenomenon in Shelling Model. If one moves, other have to move , this is __exodus tip__. 
 
-Genesis Tip :- Someone moves in, makes some out.
+__Genesis Tip__ :- Someone moves in, makes some out.
+
+#### Measuring Segregation
+
+__Measures of Disimilarities__ : 
+
+We will going to measure with the help of index of disimilarities.
+
+We take *Rich* as Blue and *Poor* as Yellow.
+
+Place these people in a grid with 24 blocks with 10 people per block
+
+__Case 1__
+In 12 blocks all Rich
+In 6 blokcs all poor
+In 6 blocks half rich/half poor
+
+Rich People = 150
+Poor people = 90
+Total People = 240
+
+b = # blue in block
+B =# blue total(150)
+y = #yellow in block
+Y = #yellow total (90)
+
+|b/B - y/Y| = index of disimilariteis
+
+For example 5B and 3Y
+
+|5/150 - 3/90| = |1/30 - 1/30| = 0 .... No segregation
+
+In case of 1st case
+
+For each Rich blue block |10/150 - 0/90| = 1/15
+For each yellow poor block |0/150 - 10/90| = 1/9
+for mixed block |5/150 - 5/90| = 1/45
+
+Thus
+
+6 x 1/45 + 6 x 1/9 + 12 x 1/15 = 72/45
+
+Lets do some extereme cases
+
+Case 2
+8 blocks of half rich/half poor
+
+Each block contains 5 blue and 5 yellow
+
+80 total, 40 rich and 40 poor
+
+Index of dissimilarities |5/40| - |5/40| = 0
+
+Case 3
+
+8 blocks,4 blocks of rich, 4 blocks of poor
+
+|0/40 - 10/40| = 1/4
+
+1/4 x 8 = 2
+
+To normalize we divide by 2 , so 2/2 =1
+
+So , if we have no segregation we get a score of 0 and full segregation will get a score of 1
+
+Thus, for the first case, we get 72/90 = 0.8 
+
+Therefore, index of disimilarites = 0.8
+
+For philidalphia = 0.8 
+For detroit = 0.6 [less segregated then what it looks like, vision is delusion]
+
+ 
+#### Peer Effects
+
+Granovettor's Model
+
+ -- N individuals
+ -- Each has a Threshold
+	- T(j) for person j
+	- join if T(j) others join.
+
+This model somewhat explains why we are not able to predict revolutions like the egypt revolution, ukranian revolution. The idea is simple, there is a threshold for every person who joins the cause. So, if the group threshold increases, this might meet the criteria of other person's threshold, which in turn will make them join the cause.
+
+For example.
+
+We have 5 persons who are likely to buy a orange cap.
+
+the Threshold are as below
+
+Person 1 -> 0 (i.e. he will buy the orange cap, even if noone bothers to have one)
+Person 2 -> 1 (i.e he will buy the orange cap, if one of this peers has a orange cap)
+Person 3 -> 2 (self explanatory from above statements)
+Person 4 -> 2
+Person 5 -> 2
 
 
+Another example 
+
+Person 1 -> 1				Person 1 -> 1
+Person 2 -> 2				Person 2 -> 2
+Person 3 -> 3				Person 3 -> 3
+Person 4 -> 3				Person 4 -> 4
+Person 5 -> 2				Person 5 -> 5
+					Person 6 -> 0
+
+Average - 11/5 =2.2			Average - 15/6 = 3
+
+Even the 2nd model have high values of threshold for each person, it will succeded as it has a seed to start with, in comparision with the first model which will not even start as no one will be willing to buy the cap.
 
 
+#### The Standing Ovation Model
 
+This model builds upon the Granovettor's model. 
+
+Do I stand up? Do I follow others? This is all about in this model. as people follow rules. As people follow rules and aggregate.
+
+This is a model of peer effect. As other people stand, you stand. 
+Another thing is information. For example if one person knows a lot about theathre and after the show, she stands and claps viciously , so you think the show is good and you start to clap too..
+
+-- Threshold to stand : T ( more individual property compared to grenavettor model)
+-- Quality: Q (T compares to Q)
+-- Signal : S = Q + E
+-- Initial Rule
+     - if S>T , Stand
+-- Subsequent Rule
+     - Stand if more X % stand
+
+The rule stands on 2 things, the T and X
+
+Claim 1: Higher Q, more people stand.
+
+Stand if Q+error > T
+
+Claim 2: Lower T, more people stand.
+
+Stand if Q+error > T
+
+Claim 3 : Lower X. More onvations.
+
+Stand if more than x %
+
+Now, Big X? Small X?
+
+Big X = secure people 
+Small X= people who wants to jump of bandwagon.
+
+Signal : S= Q + E
+
+E = Error |
+E = Diveristy
+
+Case 1 :
+
+1000 people
+T = 60
+Q = 50 
+
+50 < 60 , people are not going to stand.
+
+E in [-15,+15]
+
+35 <---> 50 <---> 65
+
+so some stand , and major sit.
+
+Case 2:
+
+Variation is [-50,50]
+
+0 <--> 50 <--> 60 <--> 100
+
+40 % of people will stand up.
+
+So large diveristy or large error you are more likely to stand up.
+
+Claim 4: if Q <T , more variation in E, more people will stand.
+
+Stand if Q+E > T
+
+Audience -- Diverse, Unsophisticated.
+Performance -- Multidimensional, Complex.
+
+What we did learn?
+
+1. Higher Quality, standing ovation.
+2. Lower Threshold, standing ovation
+3. Larger Peer Effects , standing ovation
+4. More variation , standing ovation.
+
+##### Ovations Advanced
+
+Modelling needs to make things out. -- People miss the theatre and couples.
+
+The cone effect -- The rectangular theatre sitting, has a cone effect on any random person. The person on the first row, will have no cone what so ever, so they are like celebirty as they are seen by almost all the people from the back. But, with the same logic the last row of people can be termed as academic, as they judge everyone but no one gives them value.
+
+The date effect -- 
+ If you are with date, it's more likely for you to stand up if your date stands up.
+
+5. Use Celebrities.
+6. Big Groups.
+
+__Fertility__ 
+
+ * Collective Action.
+ * Academic Performance.
+ * Urban Renewal.
+ * Fitness/Health.
+ * Online Course.
+ * Facebook popularity Model.
 
 
 

@@ -766,6 +766,46 @@ an HTMl output file as follows:
 
 
 
+### Layouts
+
+-- In order to generate the final HTML file that will be supplied to the browser, a layout file is invoked , passing the template to it as a block.
+
+-- By default the app/views/layouts/application.html.erb is used. This file is automatically created whenever you create a new Rails application.
+
+-- Advantage of layouts : By editing one file, and its associated stylesheet , we can change the look and feel of the entire site.
+
+-- If you want to have different layouts for the different parts of a site, create a layout file that has the same name as the controller you want to associate it with,
+and place it in the layouts folder.
+
+Ex. app/views/layouts/posts.html.erb
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

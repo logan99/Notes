@@ -754,6 +754,16 @@ an HTMl output file as follows:
 
 
 
+## Proper Use of ERb
+
+-- Although ERb allows you to insert Ruby code into your view, as a matter of good design , use it sparingly!
+
+-- E.g., in a RESTful architecture, the HTML code in ERb teplaes should specify the structure of the document, and the Ruby code should be used to provide(dynamic) information specific to particular resources.
+
+-- Application-level functionality and business logic should never be found in ERb templaes.
+
+-- For generating HTML elements and formatiing data in the view, there are numeros Rails helper methods - use them.
+
 
 
 
