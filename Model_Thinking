@@ -410,6 +410,58 @@ __Fertility__
  * Facebook popularity Model.
 
 
+#### The Identification Problem
+
+How do we know is this the effect of Schelling or Standing Ovation. is this because of homophily or peer effect?
+
+Schelling :- Phildelphia Segregation, school model
+Standing Ovation: - Generic names for soft drinks in USA.
+
+The big sort talks about sorting.
+Connected talks about peer effects.
+
+
+We have A's and B's
+
+Two population:- 
+
+AABBAA
+
+BBABBA
+
+If sorting happens , the A from 2nd population to 1st population and vice-versa. (People move)
+If peer-effects happens, two B's in 1st population become A and similarily in 2nd population.(Identification Change)
+
+Need Dynamic data for Identification. Hence model are useful for data collection, as it helps to identify the data to be collected.
+
+
+#### Section 3- Aggregation
+
+Basic mathematics , add them up and sum of the whole of the parts. Aggregation is tricky in case of social real world. 
+
+__More is Different__ : Is a book by Aneston. Take a riductionist apporach, but at the end , we get something different when we add them up. As the whole, the world is different.
+
+Ex. Single water molecule (H20). One molecule water cannot be wet. So wettness is a property of a bunch of water molecules. 
+
+Ex2. Like congnition, millions of neurons.
+
+**Aggregation of**
+
+1. Actions.
+2. Single Rule (game of life).
+3. Family of Rules.
+4. Preferences. (Example from social science.)
+
+
+
+#### Central Limit Theorm
+
+
+
+
+
+
+
 
 
 
