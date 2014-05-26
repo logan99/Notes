@@ -1,0 +1,90 @@
+__Course__ : The Data Scientist ToolBox
+__Week__ :3 
+
+Video_1
+
+__Type of Data Science Questions__ :
+
+In approximate order of difficulty
+
+* Descriptive
+* Exploratory
+* Inferential
+* Predictive
+* Causal
+* Mechanistic
+
+## About Descriptive Analyses
+
+Goal: Describe a set of data
+
+1. The first kind of data analysis performed.
+2. Commonly applied to census data
+3. The description and interpretation are different steps.
+4. Descriptions can usually not be generalized without additional statistical modeling
+
+Ex. Google Ngram
+
+## About Exploratory Analsis
+
+Goal: Find relationships you didn't know about
+
+1. Exploratory models are good for discovering new connections.
+2. They are also useful for defining future studies.
+3. Exploratory analyses are usually not the final say.
+4. Exploratory analyses alone should not be used for generalizing/predicting.
+5. ##Correlation does not imply causation##.
+
+## About Inferential analysis
+
+Goal: Use a relatively small sample of data to say something about a bigger population.
+
+1. Inference is commonly the goal of statistical models.
+2. Inference involves estimating both the quantity you care about and your uncertainty about your estimate.
+3. Inference depends heavily on both the population and the sampling scheme.
+
+## About predictive analysis
+
+Goal: To use the data on some objects to predict values for another object.
+
+1. If X predicts Y it does not mean X causes Y.
+2. Accurate prediction depends heavily on measuring the right variables.
+3. Although there are better and worse prediction models, more data and a sample model works really well.
+4. Prediction is very hard, especially about the future references.
+
+
+## About causal analysis
+
+Goal: To find out what happens to one variable when you make another variable change.
+
+1. Usually randomized studies are required to identify causation.
+2. There are approaches to inferring causation in non-randomized studies, but they are complicated and sensitive to assumptions.
+3. Causal relationships are usually identified as average effects, but may not apply to every individual.
+4. Causal models are usually the "gold standard" for data analysis.
+
+## About Mechanistic analysis
+
+Goal: Understand the exact changes in variables that elad to changes in other variabels for individual objects.
+
+1. Incredibly hard to infer, expect in simple situations.
+2. Usually modeled by a deterministic set of equations(physical/engineering science.)
+3. Generally the random component of the data is measurement error.
+4. If the equations are known but the parameters are not, they may be inferred with data analysis.
+
+# What is data?
+
+__Definition:__ "Data are values of qualitative or quantitative variables, belonging to a set of items."
+
+**Set of items** : Sometimes call the population; the set of objects you are interested in.
+
+Variables :A measurement or characteristic of an item.
+
+The data is the second most important thing
+
+1. The most important thing in data science is the question.
+2. The second most important is the data.
+3. Often the data will limit or enable the questions.
+4. But having data can't save you if you don't have a question.
+
+
+

@@ -281,31 +281,404 @@ __Ruby Introduction__
 Already familiar..
 
 
+Week2
+===========================
+
+### All programming is MetaProgramming
+
+## MetaProgramming and Reflection
+
+1. Reflection let us ask an object questions about itself and have it modify itself.
+2. Metaprogramming lets us define new code at runtime.
+3. How can these make our code DRYer, more concise, or easier to read?
+  
+
+Wrong way to go are as follows:
+
+acct.deposit(100) # deposit $100
+acct.deposit(euros_to_dollars(20))
+acct.deposit(CurrencyConverter.new(:euros, 20))
+
+
+Righ way to go:
+
+acct.deposit(100)
+acct.deposit(20.euros)
+
+We have open classes in Ruby and can open any class and modify the classes.
+
+Class Numeric
+	def euroes
+		self*1.292
+	end
+end
+
+# what happen when I used acct.deposit(1.euro)
+
+
+# Metaprogramming to the rescue
+THere is a drier way to do this by using method missing
+
+class Numeric
+	@@currencies = {'yen' => 0.013, 'euro' => 1.292, 'rupee' => 0.019}
+	def method_missing(method_id, *args, &block) # capture all args in case have to call super
+	singular_currency = method_id.to_s.gsub(/s$/,'')
+	if @@currencies.has_key?(singular_currency)
+		self * @@currencies[singular_currency]
+	else
+		super
+	end
+  end
+end
+
+
+1. attr_accessor is an example of meta-programming.
+
+2. You can ask Ruby objects questions about themseleves at runtime(introspection)
+3. You can use this information to generate new code(methods, objects, classes) at runtime (reflection)
+4. ....so can have code that writes code(metaprogramming)
+5. You can "reopen" any class at any time and add stuff to it.
+--..In addition to extending/subclassing it!
+
+Use the simplest way to implement stuff,just we have access to metaprogramming doesn't mean that we have to implement it in meta. A simple function call can do the job.
+
+The last peer-learning question 
+
+## Blocks , Iterators , Functional Idioms(10.23)
+
+
+1. How can techniques from fucntional programming help us rethink basic programming concepts like iteration?
+2. Loops -- but don't think of them that way
+
+['apple','banana','cherry'].each do |string|
+	puts string
+end
+
+for i in (1..10) do
+	puts i
+end
+
+1.upto 10 do |num|
+	puts num
+end
+
+3.times {print "Rah, "}
+
+
+3. If you're iterating with an index, you're probably doint it worng
+
+a. Iterators let objects manage their own traversal
+b. (1..10).each do |x| ... end
+c. 1.upto(10) do |x| ... end => range traversal
+d. my_array.each do |elt| ... end => array traversal
+e. hsh.each_key do |key| ... end
+f. hsh.each_pair do |key,val| ... end => hash traversal
+g. 10.times {....}
+h. 10.times do ... end
+
+
+4. "Expression orientation"
+
+x= ['apple','cherry','apple','banana']
+x.sort 
+x.uniq.reverse 
+x.reverse!
+x.map do |fruit|
+	fruit.reverse
+end.sort
+
+x.collect { |f| f.include?("e")}
+
+x.any? {|f| f.length > 5}
+
+
+A real life example
+
+Mechanize
+
+# notice mehtod chaining:
+
+amount = Mechanize.new.
+		#note passing of hash argument
+		post(url, :username, :password => password).
+		# not use of regular expression as hash value
+		link_with(:href => /cardValue/i).
+		click.
+		parser.xpath()"//tr/td[contains(.,'Clipper Cash')"].first.next_sibling.next_sibling.
+		content.match(/\$(\d+\.\d+)/)
+		html($1)
+end
+
+
+
+## Mixims and Duck Typing
+
+* Ruby emphasizes 
+	"What methods do you respond to?"
+over
+	"What class do you belong to?"
+
+* How does this encourage productivity through reuse?
+
+* what is "duck typing"?
+
+1. if it responds to the same methods as a duck... it might as well be a duck
+2. Similar to Java interfaces but easier to use
+3. Example: my_list.sort
+		[5,4,3].sort
+		["dog","cat","rat"].sort
+		[:a,:b,:c].sort
+		IO.readlines("my_file").sort
+
+To introduce this concept, we need to study one more concept in ruby called modules, which is not similar to what we understand by modules in other class. 
+
+#### Modules
+
+1. Collection of methods that aren't a class
+	- you can't instantiate it
+	- Some moduels are namespaces, similar to Python: Math::sin(Math::PI/2.0)
+2. Important use of modules: mix its methods into a class:
+	Class A ; include Mymodule ; end
+	- A.foo wil search A, then MyModule,then method_missing in A & B , then A's ancestor(Super)
+	- sort is actually defined in module Enumerable, which is mixed into Array by default.
+
+Modules are collection of behaviour.
+
+Sort is defined in the class Enumerable and not on arrays. Sort wil work on any collection that can enumerate.
+
+If you can return element of an collection, then I can do other things, like select, collect.
+
+#### A Mix-in is a Contract
+
+1. Example: Enumerable assumes target object responds to each
+	- ..provides all?, any?, collect, find, include?, inject, map, partition,....
+2. Enumerable also provides sort, which requires elements of collection(things returned by each) to respond to <=>(SpaceShip Operator)
+3. Comparable assumes that target object respoinds to <=>(other_thing)
+	- provides < <= => > == between>? for free.
+
+Class of objects doesn't matter; only methods to which they respond.
+
+Example: sorting a file
+
+* Sorting a file
+	- File.open returns an IO Object
+	- IO objects respond to each by returning each line as a String.
+	- So we can say
+
+File.open('filename.txt').sort
+	-relies on IO#each and String#<=>
+* Which lines of file being with vowel?
+
+File.open('file').
+	select {|s| s=~ /^[aeiou]/i}
+
+Example of Comparable class
+
+
+Class Accounts
+	include Comparable
+	def <=>(other)
+		self.balance <=> other.balance
+	end
+end
+
+
+Why Module? When Class?
+
+1. Moduels reuse behaviors
+	- high-level behaviors that could conceptually apply to many classes.
+	- Example : Enumerable, Comparable
+	- Mechanism : mixin (include Enumerable)
+2. Classes reuse implementation
+	- subclass reuses/overrides superclass methods
+	- Mechanism: inheritance(class A < B)
+3. Remarkably often, we will prefer composition over inheritance.>
+
+
+
+## Inelegant, this
+
+ArrayList aList;
+Iterator it = aList.iterator();
+while (it.hasNext()){
+	Object element = it.getNext();
+	//Do some stuff with element
+}
+
+
+
+* Goal of the code: do stuff with elemetns of aList
+* But iterator logic is all jumbled up with the code.
+
+#### Blocks(anonymous Lamda)
+
+(map '(lamda (x) (+ x 2)) my list)
+=> mylist.map {|x| x+2}
+
+(filter '(lamda (x) (even? x)) mylist)
+=> mylist.select do |x| ; x.even? ; end
+
+(map
+	'(lamda (x) (+ x2))
+	(filter '(lambda (x) (even? x)) mylist))
+
+=>mylist.select {|x| x.even?}.map {|x| x+2}
+
+
+#### Turning iterators inside-out
+
+1. Java:
+	- You hadn me each elemet of that collection in turn.
+	- I'll do some stuff.
+	- Then I'll ask you if there's any more left.
+2. Ruby:
+	- Here is some code to apply to every element of the collection.
+	- You manage the iterator or data structure traversal. Give me each elemet to do stuff to.
+
+An example of yield.
+
+class RandomSequence
+	def initialize(limit,num)
+		@limit, @num = limit,num
+	end
+	def each
+		@num.times {yield (rand * @limit}.floor}
+	end 
+end
+
+
+i = -1
+RandomSequence.new(10,4).each do |num|
+	i = num if i < num
+end
+
+#### Iterators are just one nifty use of yield.
+
+# in File Class
+
+def open(filename)
+	...open a file...
+end
+
+def close
+	...close a file...
+end
+
+# in your code
+
+def do_everything
+	f = File.open("foo")
+	my_custom_stuff(f)
+	f.close()
+end
+
+Without yield():expose 2
+	calls in other library.
+
+Now with yield():expose 1 call in other library
+
+# in some other library
+def open(filename)
+	...before code..
+	yield file_descriptor
+	...after code...
+end
+
+#in your code
+
+def do_everything
+	File.open("foo") do |f|
+		my_custom_stuff(f)
+	end
+end
+
+#### Blocks are Closures
+
+1. A closure is the set of all variables bindings you can "see" at a given point in time.
+	-- In Scheme, it's called an environment
+2. Blocks are closures: they carry their environment around witht them.
+3. Result: blocks can help reuse by seperating what to do from wherae and when to do it.
+	-- We'll see various examples in Rails.
+
+>
+
+### Summary
+
+1. Duck typing encourages behavior reuse.
+	-- "mix-in" a module and rely on "everything is a method call -- do you respond to this methiod?"
+
+2. Blocks and iterators
+	- Blocks are anonymous lambdas that carry their environment around with them.
+	- Iterators are an important special use case.
+
+# Overview of BDD + TDD
+## Intro to RSpec and Unit Tests
+
+Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition , not smart enough to debug it. -- kerigen 
+
+Testing can never demonstrate the presence of errors in software, only their abscence.
+-- Edgar Djiskasta
+
+Testing rocks, debugging sucks.
+
+
+#### Testing Todayu
+* Before
+	- developers finish code, some ad-hoc testing
+	- "toss over teh wall to Quality Assurance[QA]"
+	- QA staff manually poke at software
+
+And then it's shipped, and complains come about hundreds of bugs.
+
+* Today/Agile
+	- testing is part of every Agile iteration
+	- developers test their own code.
+	- testing tools & processes highly automated
+	- QA/testing group improves testability and tools.
+
+#### BDD + TDD : The Big Picture
+
+* Behavior-driven design(BDD)
+	- develop user stories (the features you wish you had) to describe how app will work.
+	- via Cucumber, user stories become acceptance tests and integration tests.
+
+
+* Test-driven Development (TDD)
+	- step definitions for new story, may require new code to be written
+	- TDD says: write unit & functional tests for that code first, before the code itself.
+	- that is: write tests for the code you wish you had.
+
+##### Cucumber & Rspec
+
+* Cucumber describes behavior via featuers & scenarios (behavior driven desing)
+* RSpec tests individual modules that contribute to those behaviors (TDD)
+
+Failing(red)(Cucumber step)(1) ---> Failing(red)RSpec test(2) ---> Passing(Green)RSpec test(go back to 2) (3) ---> Passing(Green) Cucumber step(go back to 1)(4)
 
 
 
 
+## FIRST TDD and getting started with Rspec.
+
+FRIST - an acronym for remebring during test
+
+F(ast) : run (subset) of tests quickly(since you'll be running them all the time)
+Independent: no tests depend on others, so can any subset in any order 
+Repeatable : run N times, get same result(to help insolate bugs and enable automation)
+Self-checking: test can automatically detect if passed (no human checking of output)
+Timely: written about the same time as code under test(with TDD, written first!)
+
+RSpec, a Domain-Specific Language(DSL) for testing
+
+* DSL: small programming language that simplifies one tast at expense of generality
+	- examples so far: migrations, regexes, SQL
+
+* RSpec tests are called specs or examples
+* Run the tests in one file: rspec filename
+	- Red failing, Green passing, Yellow pending.
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+* Much better: running autotest.(running in the background all the time)
 
 
 
