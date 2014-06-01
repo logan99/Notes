@@ -769,6 +769,293 @@ View (HTML & CSS, XML & XPath)
 Controller (URI's , HTTP, TCP/IP stack, REST & RESTful routes)
 Model (Database and migrations, CRUD)
 
+c. 2008 : "Rails doesn't scale"
+
+1. Scalability is an architectural concern -- not confined to language or framework.
+2. The stateless tiers of 3-tier arch do scale
+	-- with cloud computing, just worry about constants
+3. Traditional relational databases do not scale
+4. Various solutions combining relational and non-relational storage("NoSQL" scale much better
+	- DataMapper works well with some of them.
+5. Intelligent use of caching(later in course) can greatly improve the constant factors.
+
+
+#### Architecure is about Alernatives
+
+**Patterns we're using				Alternatives**
+1. Client-Server				Peer-to-peer
+2. Shared-nothing(cloud computing)		Symmetric multiprocessor, shared 							global address space
+3. Model-View-Controller			Page controller, Front 							controller,Template view
+4. Active Record				Data Mapper
+5. RESTful URIs(all sate affecting		Same URI does different things request is explicit)				depending on internal state
+
+
+
+As you work on other SaaS apps beyond this course, you should find yourself considering different architectural choices and questioning the choices being made.
+
+
+Summary : Architecure & Rails
+
+1. Model-View-Controller is a well known architectural pattern for structuring apps.
+2. Rails codifies SaaS app structure as MVC
+3. Views are Haml w/embedded Ruby code, transformed to HTML when sent to browser
+4. Models are stored in tables of a realtional database, accessed using ActiveRecord.
+5. Controllers tie views and models together via routes and code in controller methods.
+
+## From Zero to CRUD
+
+-- Directory explanation -- already known.
+
+##### A trip through a Rails app
+
+1. Routes(in routes.rb ) map incoming URL's to controller actions and extract any optional parameters.
+	- Route's "wildcard" parameter (eg: id) plus any stuff after "?" in URL, are put into params[] hash accessible in controller actions.
+
+2. Controller actions set instance variables, visible to views
+	- Subdirs and filenames of views/ match controller and action names
+3. Contoller actions eventaully renders a view.
+
+##### Rails Philosophy
+
+1. Convention over configuration
+	- IF naming follows certain conventions, no need for config files.
+MoviesControlle#show in movies_controller.rb -> views/movies/show.html.haml
+
+2. Don't Repeat Yourself(DRY)
+	- mechanisms to extact common functionality.
+3. Both rely havily on ruby features:
+	-introspection and metaprogramming
+	- blocks(closures)
+	- modules(mix-ins)
+
+
+## When things go wrong. Debugging
+
+##### Debugging SaaS can be tricky.
+
+1. "Terminal" (STDERR) not always available.
+2. Erros early in flow may manifest much later
+URI -> route -> contrtoller -> model -> view -> render
+3. Error may be hard to localize/reproduce. 
+
+##### RASP
+
+1. Debugging is a fact of life.
+2. Read the error message. Really read it.
+3. Ask a colleague an informed question.
+4. Search using Stackoverflow, a search engine, etc.
+	- Especially for errors involving specific versions of gems, OS, etc.
+5. Post on StackOverflow 
+
+##### Reading Ruby error messages
+
+1. The backtrace shows you the call stack(where you came from) at the stop point.
+2. A very common message
+	undefined method 'foo' for nil:NilClass
+3. Often, it means an assignment silently failed and you didn't error check:
+
+@m = Movie.find_by_id(id) #could be nil
+@m.title # will fail: 'undefined method'
+
+###### Instrumentation(a/k/a "printing the values of things")
+
+1. In views:
+	= debug(@movie)
+	= @movie.inspect
+2. In the log, usually from controller method:
+	logger.debug(@movie.inspect)
+
+3. Don't just use puts or printf! It has nowhere to go when in production.
+
+##### Search:Use the Internet to answer questions
+
+1. Google it
+	- "how do I format a _date_ in _ruby_?
+	- "how do I add rails routes beyond CRUD/
+2. Check the documentation
+	- api.rubyonrails.org complete 
+3. Stackoverflow
+
+#### Use rails console
+1. like irb, but load Rails +your app code
+2. But context is still not quite right for "peeking into" controller and views.
+
+
+## Models: ActiveRecord Basics
+
+ActiveRecord is a Design pattern. How to connect inmemory objects and how they are stored in the database.
+
+How can language features simplify design and implementation of design patterns?
+In this case, Active Record, which "bridges the gap" between in -memory Ruby objects and their stored representation in a database.
+
+##### CRUD IN SQL
+
+1. Stuctured Query language (SQL) is the query language used by RDBMS
+2. Rails generates SQL statement at runtime, basd on your ruby code.
+3. 4 basic operations on a table row:
+Create, Read, Update attributes, Delete
+
+INSERT INTO users (atr1, atr2 ,atr3) values (at1 = val1, atr2 =val2, ....)
+select * from usrs where ()
+update users set email = "" where username = ???
+delete from users where id =1
+
+Subcalssing from ActiveRecord::Base
+- connects a model to the database.
+- provides CRUD operation on the model.
+
+Database table name derived from model's name : Movie -> movies.
+Database table column names are getters and setters for model attributes.
+Observe: the getters and setters do not simply modify instance variables!
+
+
+class Movie < ActiveRecord::Base
+end
+
+movie = Movie.new
+movie.title = "The help"
+movie.rating = "PG-13"
+
+movie = Movie.new do |n|
+	n.title = "The help"
+	n.rating = "PG-13"
+end
+
+movie.save
+
+##### Creating: new =/ save
+
+1. Must call save or save! on an AR model instance to actually save changes to DB.
+	- '!' version throws exception if operation fails
+	- create just combines new and save.
+2. Once created, object acquires a primary key (id column in every AR model table)
+	- if x.id is nil or x.new_record? is true, x has never been saved.
+	- These behaviors inherited from ActiveRecrod::Base -- not true of Ruby objects in general.
+
+
+
+'>
+## Database & Migration 
+
+##### Your customer data is golden!
+
+1. How do we avoid messing it up when experimenting/developing new features?
+2. How do we track and manage schema change?
+3. ...the answer to both is automation!
+
+##### Multiple environments, multiple databases
+1. Rails solution: development, production and test environment each have own DB
+	- Different DB types apporiate for each!
+2. How to make changes to DB, since will have to repeat changes on production DB?
+3. Rails solution: migration -- script describing changes, portable across DB types.
+
+##### Migration Advantages
+
+1. Can identify each migration, and know which one(s) applied and when
+	- Many migrations can created to be reversible
+2. Can manage with version control
+3. Automated == reliably repeatable
+
+4. Theme : don't do it- automate it.
+ -- specify what to dom create tools to automate.
+
+> rails generate migration CreateMovies
+
+class CreateMovies < ActiveRecord::Migration
+def up
+	create_table 'movies' do |t|
+		t.string 'title'
+		t.string 'rating'
+		t.text 'description'
+		t.datetime 'release_date'
+		# Add fileds that let Rails automaticall keep track
+		# of when movies are added or modified:
+		t.timestamps
+	end
+end
+
+def down
+	drop_table "movies" # deletes the whole table and all its data!
+end
+end
+>
+ 
+Note , this creates the migration. We haven't applied it.
+Apply migration to development.
+
+
+> rake db:migrate
+
+Apply migration to production:
+heroku rake db:migrate
+
+Applying migration also records DB itself which migrations have been applied.
+
+
+##### Rails Cookery #1
+1. Augmenting app functionality == 
+	adding models, views, controller actions
+
+To add a new model to a Rails app:
+	- (or change/add attributes of an existing model)
+
+1. Create a migration describing the changes:
+	rails generate migration(gives you boilerplate)
+2. Apply the migration: rake db:migrate
+3. if new model, create model file
+	app/models/model.rb
+4. Update test DB schema : rake db:test:prepare
+
+## Models: Finding, Updating, Deleting 
+
+Read: fidning things in DB
+
+1. Class method where selects objects based on attributes.
+
+Movie.where("rating='PG'")
+Movie.where('release_date <:cutoff and rating = :rating', :rating => 'PG', :cutoff => 1.year.ago)
+Movie.where("rating=#{rating}") #BAD IDEA!
+
+2. Can be chained togehter efficiently
+
+kiddie = Movie.where("rating='G'")
+
+old_kids_films = kiddie.where("release_date <?" , 30.years.ago)
+
+
+Only when we used the query or do work on them then only they are executed.
+It' is basically an activerelation engine.
+
+3. find by id:
+	Movie.find(3) #exception if not found
+	Movie.find_by_id(3)
+
+4. Dynamic attribute-based finders:
+	Movie.find_all_by_rating('PG')
+	Movie.find_by_rating('PG')
+	Movie.find_by_rating!('PG')
+
+5. Updating : 2 ways
+
+- Let m = Movie.find_by_title('The Help')
+- Modify attributes, then save object m.release_date = '2011-Aug-10'
+										m.save!
+-> Update attributes on existing object 
+m.update_attributes
+	:release_dates => '2011-Aug-10'
+
+- Transactional: either all attributes are updated, or none are
+
+
+
+
+
+
+
+
+
+
+
 
 
 
