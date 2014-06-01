@@ -1,0 +1,27 @@
+__Software Defined Network__
+
+from Georgia Tech
+=================
+
+1. Learn about the motivation(and origins ) of Software Defined Networking.
+2. Understand current trends in SDN
+3. Learn the types of networking problems SDN is good at solving.
+4. Develop hands-on experience appling SDN to different domains.
+
+
+#### What you will know by the end
+
+* Apply SDN concepts to solve real network management problems
+	1. Load balance in data-center and backbone networks.
+	2. Security in enterprise networks.
+
+* Set up your won SDN(in a virtual machine)
+
+USE SDN to solve problems in data centers, interdomain routing, etc.
+
+
+Course Prerequisite -- Python, basic socket programming in C, computer networking, Experience with the linux operating system, Virtual Box.
+
+First activity : Pre-Assessment Quiz.
+
+

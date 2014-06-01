@@ -683,14 +683,91 @@ RSpec, a Domain-Specific Language(DSL) for testing
 
 
 
+#### Week 3
+
+The web as a client-server system; TCP/IP intro -- already known
+HTML+CSS -- already known
+3 Tier shared- nothing architecure and scaling
+MVC
+Models, Database and Active Records
+Controller, Routers and Restfulness
+Template Views and Haml
+SaaS architecture
+
+##### 3-Tier shared nothing architecure and scaling
+Presentation tier - Apache
+logic tier - Rack
+
+__Dynamic content generation__
+
+1. In the Elder Days, most web pages were(collections of) plain old files.
+2. But most interesting Web 1.0/e-commerce sites run a program to generate each "page"
+3. Originally: templates with embedded code "snippets"
+4. Eventaully, code became "tail that wagged the dog" and moved out of the Web Server.
+
+__Sites that are really programs (SaaS)__
+
+1. How do you:
+
+-- Map "URI to correct program and function?
+-- Pass arguments?
+-- invoke program on server?
+-- handle persistent storage?
+-- handle cookies?
+-- handle errors?
+-- package output back to user?
+
+2. Frameworks support these common tasks.
+
+
+Client(browser) --> Presentation(Web Server) --> Common Gateway Interface(CGI) --> Logic(app) --> persistence.
+
+3. Developer enviroment vs. medium-scale deployment.
+
+Developer ->> WEBRICK --> rack --> rails library --> SQLlite adapter --> file.sqlite3
+
+Scalibility is achieved by NOSQL database.
+Large scale curated deployment eg. Heroku
+
+__Scaling and Sharding__
+
+1. Partition data across independent "shards"?
+	+ Scales great
+	- Bad when operated touch >1 table
+	- Example use: user profile
+2. Replicated all data everywhere?
+	+ Multi-table queries fast
+	- Hard to scale : writes must propagate to all copies => temporary inconsistency in data values.
+	- Example: Facebook wall posts/"likes"
+
+Summary:
+
+1. Browser requests web resources(URI) using HTTP
+	- HTTP is a simple request-reply protocol that relies on TCP/IP.
+	- In SaaS, most URI's cause a program to be run, rather than a static file to be fetched.
+
+2. HTML is used to encode content, CSS to style it visually.
+3. Cookies allow server to track client
+	- Browser automatically passes cookie to server on each request.
+	- Server may change cookie on each response.
+	- Typical usage: cookie includes a handle to server-side iformation
+	- That's why some sites don't work if cookies are completely disabled.
+
+4. Framework make all these abstractions convenient for programmers to use, without sweating the details.
+
+5. and helps map SaaS to 3-tier , shared nothing architecure.
 
 
 
 
+__SaaS architecture__
 
 
+The big picture
 
-
+View (HTML & CSS, XML & XPath)
+Controller (URI's , HTTP, TCP/IP stack, REST & RESTful routes)
+Model (Database and migrations, CRUD)
 
 
 
