@@ -25,7 +25,7 @@ Goal: Describe a set of data
 
 Ex. Google Ngram
 
-## About Exploratory Analsis
+## About Exploratory Anaylsis
 
 Goal: Find relationships you didn't know about
 
@@ -89,7 +89,92 @@ The data is the second most important thing
 # What about Big Data?
 
 Right Data is more imporatant than big data.
+1.8 zettabytes in 2011 being created.
+EMC2 , cloud and big data.
+Study on small world problem ( seperation of six degrees)
+Don't use hadoop if your data is not big enough.
 
+
+Big or small - you need the right data
+
+"The data may not contain the answer. The combination of some data and an aching desire for an answer does not ensure that a reasonable answer can be extracted from a given body of data...."
+
+
+## Basics of Experimental Design.
+
+Example : - Genomic information to guide the use of chemtherapeutics. 
+			Deriving chemosensitivy 
+			Worry about satisitical method used 
+
+			http://figshare.com
+
+			http://github.com/jtleek/datasharing.
+
+1. Formulate your question in advance.
+
+Question: Does changing the text on your website improve donations?
+
+Experiment:
+
+1. Randomly show visitors one version or the other.
+2. Measure how they donate.
+3. Determine which is better.
+
+Key idea of large component of data science i.e. Statistical inference.
+
+
+Probability of showing the site to the user -> We have some sample which will derive a descriptive statistics which when inferential lead to being applied to the whole population.
+
+Variability - Scenario 1 
+
+less variability in results can leads to prediction.
+
+Issue of confounding..
+
+S(Shoe size) -> L(literacy )
+
+S(Shoe size) -> Age -> Literacy
+
+Age is the missing variable. So age is the confounder. The processing is known as confounding.
+
+
+Coorelation is not causation.
+
+How to deal with cofounding.
+
+#### Randomization and blocking
+
+1. If you can (and want to) fix a variable
+	- Website always says Obama 2014 on it.
+
+2. If you don't fix a variable, stratify it.
+	- If you are tesing sign up phrases and have two website colors, use both phrases equally on both.
+
+3. If you can't fix a variable, randomize it.
+
+### Prediction
+
+Probability/Sampling --> Training set --> prediction function f(sample) --> outcome(yes/no)
+
+### Prediction versus inference.
+
+Inference distributions have more overalapped area.
+whereas prediction distributions has less overallped area.
+
+Sensitivity --> Pr(positive test | disease)
+Specificity --> Pr(negative test | no disease)
+Positive Predictive Value -> Pr(disease | positive test)
+Negative Predicitve value -> Pr(no disease | negative tesT)
+Accuracy -> Pr(Correct Outcome)
+
+### Beware data dredging.
+
+
+Good experiments -- have replication, measure variability , generalize to the problem you care about , are transparent
+
+Prediction is not inference - Both can be important
+
+Beware data dredging.
 
 
 
