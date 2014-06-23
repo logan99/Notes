@@ -1,0 +1,52 @@
+__CakePHP__:
+__Date__: 20/06/14
+
+Cakephp uses a MVC architecure and OOPS concept. It utilizes the concept of DRY implementation. The main logic of the application goes into MODEL of the specific object. It is directly connected with the database.
+
+The views are the frontpage of the website. Views interact with the users and the mediater between the Views and Model is Controller. The controller is called the middle-pie or the nervours system of cakephp.
+
+First we need to define the model of the object we need to define. We do it it singluar form. The plural form is used in the database for storage purposes. Cakephp goes well with most of the databases. In this case we will use mysql. 
+
+For example if the model name is Friend then the name of the table used in the databse is Friends.
+
+
+
+__If the project is installed in the a folder within the web server__
+http://cookingwithcakephp.blogspot.in/2008/04/installing-cakephp-into-subdirectory.html
+
+
+Enabled URL rewritimg
+and used chmod 777 for the folder
+also enabled sudo gedit /etc/apache2/sites-available/default
+Changed AllowOverride All
+
+<IfModule mod_rewrite.c>
+    RewriteEngine on
+    RewriteBase		/var/www/kevin/app/webroot
+    RewriteRule    ^$    webroot/    [L]
+    RewriteRule    (.*) webroot/$1    [L]
+</IfModule>
+
+
+__Time__: 12:03 
+__Working on__ : Update fix- currently all post are being placed and displayed numerically. We need the post to be displayed from newest to oldest. when a new post is posted the prior post gets bumped down.
+
+
+Done with this on my banners. need to change the order in other mybanner functions.
+$data_sorted = $this->Banner->find('all',array('order'=>array("Banner.created DESC")));	
+
+Changed it in two functions, one in my_banners and other in the admin_index
+
+
+
+
+__Time__ : 1:00
+__Working on__ : we would like the capability to create accounts manually  in the back admin section where it says customers. with out the need of a email verification (by pass). all we need is Name, email, and password to create the account. This method is so we can invite new advertisers to our site with a free account already made for convenience. All they would have to do is log in with the credentials provided and they can later update and save their info such as password and name.
+
+Done with the customer login pages in admin. __There is a small bug that don't let the created user log in.__
+
+
+__Time__: 4:00
+__Working on__ : Update- Implement 2 photos to be added in full description with large photo viewer when it's hovered over.  2 photos to be shown under ad content
+__Action__ : Implemented the changes to view, __need to implement jquery for hovering effect and change the upload banner file to have options to upload two additional images.__
+
