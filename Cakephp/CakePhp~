@@ -1,4 +1,4 @@
-__CakePHP__:
+__CakePHP__: Kevinbanners
 __Date__: 20/06/14
 
 Cakephp uses a MVC architecure and OOPS concept. It utilizes the concept of DRY implementation. The main logic of the application goes into MODEL of the specific object. It is directly connected with the database.
@@ -27,7 +27,7 @@ Changed AllowOverride All
     RewriteRule    (.*) webroot/$1    [L]
 </IfModule>
 
-
+#### Work
 __Time__: 12:03 
 __Working on__ : Update fix- currently all post are being placed and displayed numerically. We need the post to be displayed from newest to oldest. when a new post is posted the prior post gets bumped down.
 
@@ -36,8 +36,6 @@ Done with this on my banners. need to change the order in other mybanner functio
 $data_sorted = $this->Banner->find('all',array('order'=>array("Banner.created DESC")));	
 
 Changed it in two functions, one in my_banners and other in the admin_index
-
-
 
 
 __Time__ : 1:00
@@ -49,8 +47,16 @@ __Update1__ : Done with the job, added a verified readonly box and circumvents t
 
 __Time__: 4:00
 __Working on__ : Update- Implement 2 photos to be added in full description with large photo viewer when it's hovered over.  2 photos to be shown under ad content
-__Action__ : Implemented the changes to view, __need to implement jquery for hovering effect and change the upload banner file to have options to upload two additional images.__ __NOTDONE__
+__Action__ : Implemented the changes to view, __need to implement jquery for hovering effect and change the upload banner file to have options to upload two additional images.__
+__Fixed__: Implemented the two images on the front end of the banner view.
+__Waiting for apporval__: Update banners create to load two extra photos and link it the banner.
+__Done__ : Fixed the images problem. Rand function need to me more random __FUTURE WORK__
+__Database changed__: added two fields 
 
+
+
+
+#### Manual Fixes
 __Date__ 24/06/2014
 __Time__: 11:00
 __Fixed__ : 'should not ne empty' to 'should not be empty'
@@ -69,6 +75,11 @@ __How__: Changed the validation rules in customer model
 
 __Time__: 11:12 
 __Fixing__: Admin created customers cannot be logged in.
+__Fixed__ : Done
+
+
+
+
 
 
 
