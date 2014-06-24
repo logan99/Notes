@@ -43,10 +43,35 @@ Changed it in two functions, one in my_banners and other in the admin_index
 __Time__ : 1:00
 __Working on__ : we would like the capability to create accounts manually  in the back admin section where it says customers. with out the need of a email verification (by pass). all we need is Name, email, and password to create the account. This method is so we can invite new advertisers to our site with a free account already made for convenience. All they would have to do is log in with the credentials provided and they can later update and save their info such as password and name.
 
-Done with the customer login pages in admin. __There is a small bug that don't let the created user log in.__
+Done with the customer login pages in admin. __There is a small bug that don't let the created user log in.__. __The bug is related to hosting it on real server. As the account being created need to be verified.__. __Time__: Added a verify box, which takes value as one
+__Update1__ : Done with the job, added a verified readonly box and circumvents the verification of the customer. 
 
 
 __Time__: 4:00
 __Working on__ : Update- Implement 2 photos to be added in full description with large photo viewer when it's hovered over.  2 photos to be shown under ad content
-__Action__ : Implemented the changes to view, __need to implement jquery for hovering effect and change the upload banner file to have options to upload two additional images.__
+__Action__ : Implemented the changes to view, __need to implement jquery for hovering effect and change the upload banner file to have options to upload two additional images.__ __NOTDONE__
+
+__Date__ 24/06/2014
+__Time__: 11:00
+__Fixed__ : 'should not ne empty' to 'should not be empty'
+
+__Time__: 11:10
+__Fixing__: Customer updating profiles in admin panel
+__Fixed__: Customer profiles can be updated from admin panel. Email validation rule is overrided.
+__How__: Changed the validation rules in customer model
+'checkUniqueEmail' => array(
+                'rule' => array('checkUniqueEmail'),
+                'message' => 'Email already exist',
+                //'allowEmpty' => false,
+                //'required' => false,
+                //'last' => false, // Stop validation after this rule
+                'on' => 'create', // Limit validation to 'create' or 'update' operations
+
+__Time__: 11:12 
+__Fixing__: Admin created customers cannot be logged in.
+
+
+
+
+
 
