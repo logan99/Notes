@@ -9,7 +9,7 @@ First we need to define the model of the object we need to define. We do it it s
 
 For example if the model name is Friend then the name of the table used in the databse is Friends.
 
-
+==================================================================================================
 
 __If the project is installed in the a folder within the web server__
 http://cookingwithcakephp.blogspot.in/2008/04/installing-cakephp-into-subdirectory.html
@@ -26,7 +26,7 @@ Changed AllowOverride All
     RewriteRule    ^$    webroot/    [L]
     RewriteRule    (.*) webroot/$1    [L]
 </IfModule>
-
+=====================================================================================================
 #### Work
 __Time__: 12:03 
 __Working on__ : Update fix- currently all post are being placed and displayed numerically. We need the post to be displayed from newest to oldest. when a new post is posted the prior post gets bumped down.
@@ -37,24 +37,86 @@ $data_sorted = $this->Banner->find('all',array('order'=>array("Banner.created DE
 
 Changed it in two functions, one in my_banners and other in the admin_index
 
-
+=======================================================================================================
 __Time__ : 1:00
 __Working on__ : we would like the capability to create accounts manually  in the back admin section where it says customers. with out the need of a email verification (by pass). all we need is Name, email, and password to create the account. This method is so we can invite new advertisers to our site with a free account already made for convenience. All they would have to do is log in with the credentials provided and they can later update and save their info such as password and name.
 
 Done with the customer login pages in admin. __There is a small bug that don't let the created user log in.__. __The bug is related to hosting it on real server. As the account being created need to be verified.__. __Time__: Added a verify box, which takes value as one
 __Update1__ : Done with the job, added a verified readonly box and circumvents the verification of the customer. 
 
-
-__Time__: 4:00
-__Working on__ : Update- Implement 2 photos to be added in full description with large photo viewer when it's hovered over.  2 photos to be shown under ad content
+=====================================================================================================================================
+__Time__: 4:00 23 Tues 2014
+__Working on__ : Update- Implement 2 photos to be added in full description with large photo viewer when it's hovered over.  2 photos to be shown under ad content 
 __Action__ : Implemented the changes to view, __need to implement jquery for hovering effect and change the upload banner file to have options to upload two additional images.__
 __Fixed__: Implemented the two images on the front end of the banner view.
 __Waiting for apporval__: Update banners create to load two extra photos and link it the banner.
 __Done__ : Fixed the images problem. Rand function need to me more random __FUTURE WORK__
-__Database changed__: added two fields 
+__Database changed__: added two fields
+
+if($this->data['Banner']['image']['error']!='4'){
+					$fileArr1    = $this->data['Banner']['image'];
+					$fileArr2 	 = $this->data['Banner']['image1'];
+					$fileArr3 	 = $this->data['Banner']['image2'];
+					
+					$randNumImg1 = time() + rand(0,1000);
+					$randNumImg2 = time() + rand(0,1000);
+					$randNumImg3 = time() + rand(0,1000);
+
+					$farr1 = explode(".", $fileArr1['name']);
+					$farr2 = explode(".", $fileArr2['name']);
+					$farr3 = explode(".", $fileArr3['name']);
+
+					$ext1  = $farr1[(count($farr1)-1)];
+					$ext2  = $farr2[(count($farr2)-1)];
+					$ext3  = $farr3[(count($farr3)-1)];
+
+					$coverPhoto1   = $randNumImg1."2.".$ext1;
+					$coverPhoto2   = $randNumImg2."3.".$ext2;
+					$coverPhoto3   = $randNumImg3."4.".$ext3;
+
+					$file1 = $this->Upload->upload($fileArr1, $img_dest, $coverPhoto1, null, $allowed); 
+					$file2 = $this->Upload->upload($fileArr2, $img_dest, $coverPhoto2, null, $allowed);
+					$file3 = $this->Upload->upload($fileArr3, $img_dest, $coverPhoto3, null, $allowed);
+					//$imageactualSize = getimagesize(BANNER_DIRECTORY.'/'.$coverPhoto1); 
+					$this->request->data['Banner']['image'] = $coverPhoto1; 
+					$this->request->data['Banner']['image1'] = $coverPhoto2;
+					$this->request->data['Banner']['image2'] = $coverPhoto3;
+						
+
+================================================================================================
+__Time__: 4:00 24 Tues 2014
+__Working on__:  Update fix- general tab categories should be connected to all categories in related in city's. Meaning general catagorie show all the ads listed in that state.
+__Idea__ : Reterive all the data from the database where country == 'california' and state='all'
+Country ID and (select * from states)
 
 
+================================================================================================
+__Time__: 5:53 24 June Tues 2014
+__Working on__: 1. Ad Blue banner highlight-
+ 
+we want to make this premium ads placement to earning income from the site faster. So user have the option to highlight their ad being placed with a blue highlight banner to be recognized by shoppers and to be distinguished by other advertisers. This feature is 99 cents and none refundable (which they must agree to) and we would like for it to be linked to paypal or google wallet for now. once payments is received to paypal they should automatically have the highlight  on their ad placement. These ads need to expire in 14 days instead of 5
+ 
+With this feature we will need a premium ads catagorie in the admin to better maintain these specific ads and to cater to them if needed. We gota see all of them, and we have to be able to even renew them manually if necessary, we gota be able to have full control on the premium ads in the admin.  FYI- once the ad expires users will no longer have it as premium ads
 
+__Idea__: 
+1. Change the upload form. Create a option for premium ads. If ads are selected redirect or load the same page with paypal or google wallet. Once paid the customer is redirected to my_banners view. __NEED AJAX__
+2. Create a field name is_premium (binary). If selected as binary value 1, the add is premium otherwise non-premium.
+
+__Problem__: How to highlight the banner if premium? change the view with premium check. __in banners view__ 
+__Soltion__: Fetch the is_premium value and if it is true, render differently otherwise render the way it was. Use foreach loop to go through all the banners returned by the database according to the condition.
+
+__Problem__: Expire the premium ads in 14 days. 
+__Solution__:Update the view function in banner controller to check if 14 days has expired or not. If yes, change the is_premium to 0. This will reflect the view and then load the banner as normal banner. 
+
+==================================================================================================
+
+__Time:__ : 6:05 PM 24 June 2014
+__Working on__: Fix Update- ad expires in 5 days automatically. Users will have to renew their ads within their my banners account to make it live again and bump it back to the top of the daily deals list. Make the ad have a red dark green banner color to show it has expired.
+
+__Idea__ : For non-premium ads with is_premium filed with 0, update the view controller to check for 5 days. If expires change the status field in banners to 0. 
+After expiry user have to change to active in their my_banners.
+
+==================================================================================================
 
 #### Manual Fixes
 __Date__ 24/06/2014
@@ -78,11 +140,71 @@ __Fixing__: Admin created customers cannot be logged in.
 __Fixed__ : Done
 
 
+__Time__: 1:37 PM 25 June 2014
+__BugFound__ : when selecting sample template, it is not able to save the data into the database. Potential column missing error. need to save in correct model.	
+
+
+__Time__: 11:00 AM
+__Fixing__: Uploading the file to the live server
+__Porblem__: CSS and JS not loading on live server. Routing issues in .htaccess
+
+
+
+########## Live server settings.
+
+/app/.htaccess
+<IfModule mod_rewrite.c>
+    RewriteEngine on
+    RewriteBase    /kevinsbannersdeal/demo/app/
+    RewriteRule    ^$    webroot/    [L]
+    RewriteRule    (.*) webroot/$1    [L]
+</IfModule>
+
+
+/.htaccess
+
+<IfModule mod_rewrite.c>
+    RewriteEngine on
+    RewriteBase    /kevinsbannersdeal/demo/app/
+    RewriteRule    ^$    webroot/    [L]
+    RewriteRule    (.*) webroot/$1    [L]
+</IfModule>
+
+./app/webroot/.htaccess
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(.*)$ index.php?/$1 [QSA,L]
+</IfModule>
 
 
 
 
+$fileArr1    = $this->data['Banner']['image'];
+					$fileArr2 	 = $this->data['Banner']['image1'];
+					$fileArr3 	 = $this->data['Banner']['image2'];
+					
+					$randNumImg1 = time() + rand(0,1000);
+					$randNumImg2 = time() + rand(0,1000);
+					$randNumImg3 = time() + rand(0,1000);
 
+					$farr1 = explode(".", $fileArr1['name']);
+					$farr2 = explode(".", $fileArr2['name']);
+					$farr3 = explode(".", $fileArr3['name']);
 
+					$ext1  = $farr1[(count($farr1)-1)];
+					$ext2  = $farr2[(count($farr2)-1)];
+					$ext3  = $farr3[(count($farr3)-1)];
 
+					$coverPhoto1   = $randNumImg1."2.".$ext1;
+					$coverPhoto2   = $randNumImg2."3.".$ext2;
+					$coverPhoto3   = $randNumImg3."4.".$ext3;
 
+					$file1 = $this->Upload->upload($fileArr1, $img_dest, $coverPhoto1, null, $allowed); 
+					$file2 = $this->Upload->upload($fileArr2, $img_dest, $coverPhoto2, null, $allowed);
+					$file3 = $this->Upload->upload($fileArr3, $img_dest, $coverPhoto3, null, $allowed);
+					//$imageactualSize = getimagesize(BANNER_DIRECTORY.'/'.$coverPhoto1); 
+					$this->request->data['Banner']['image'] = $coverPhoto1; 
+					$this->request->data['Banner']['image1'] = $coverPhoto2;
+					$this->request->data['Banner']['image2'] = $coverPhoto3;
