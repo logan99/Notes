@@ -208,3 +208,94 @@ $fileArr1    = $this->data['Banner']['image'];
 					$this->request->data['Banner']['image'] = $coverPhoto1; 
 					$this->request->data['Banner']['image1'] = $coverPhoto2;
 					$this->request->data['Banner']['image2'] = $coverPhoto3;
+
+
+
+__Date__: 11:59 AM 30th June 2014
+__Problem__: banner not loading when slecting template. 
+__Fixed__: By adding ['Banner']['image1'] == null;
+		and  ['Banner']['image2] == null;
+
+
+__Date__ : 4:00 PM 30th June 2014
+__Problem__: Implemented the plugin and inserted paypal tables into the database.
+
+
+__Date__: 6:00 PM 30th June 2014
+__Problem__:2. Fix Update- ad expires in 5 days automatically. Users will have to renew their ads within their my banners account to make it live again and bump it back to the top of the daily deals list. Make the ad have a red dark green banner color to show it has expired.
+__Solution__:Formulated the algorithm to solve the problem. Need to turn it into code. And need to decide where to put the code inside the MVC Architecture.
+__Algorithm__: Pick the value of the created column of each entity, use strtotime function and pass the datetime format. It will be converted to seconds. Calulate the time elapsed by substracting the current datetime. Check if it is less than 5 days. If yes, do not render the banner. Do the changes in view.
+
+ public function checktime_normal($id = 0){
+		$data = $this->Banner->find('all')
+		$value = false;
+		$time = strtotime($this->$data['Banner']['created']);
+		if ($this->data['banner']['is_premium'] == 0) {
+			if ($time - time() < 5*24*60*60) {
+				$value = true;
+			}
+		} else {
+			if ($time - time() < 14*24*60*60) {
+				$value = true;
+			}
+		}
+	}
+
+__Changes in view if premium check__
+	if (time() - $Banner['Banner']['created'] < 14*24*60*60)
+__Changes in view if non_premium check__
+	if (time() - $Banner['Banner]['created] < 5*24*60*60)
+
+
+__Date__: 6:15 PM 30th June 2014
+__Problem__: Premium ads should be checked for 14 days expirations in the same way as the earlier problem.
+
+
+__Date__: 6:40 PM 30th June 2014
+__Problem__: 7. Update fix- ad is is pending review. When users place a new ad the way it is set up now it is to be approved by admin team. what we need is Users need to see that their ads is pending review on the banner preferable directly under the banner image. And when approve it should show it is (approved), and when suspended it should show (suspended), when in review until approve it should show (Pending review) all in blue
+__Solution__: Add pending_review to banner table. Only admin can change the variable value. 
+For this to work all pending banners should be shown in admin panel with option to make it live by one click or edit and change the value manually.
+
+
+__Time elapsed__ : http://stackoverflow.com/questions/2915864/php-how-to-find-the-time-elapsed-since-a-date-time
+
+
+__Date__: 6:45 PM 30th June 2014
+__Problem__: 6. Update fix- general tab categories should be connected to all categories in related in city's. Meaning general catagorie show all the ads listed in that state
+__Solution__: Need to learn SQL and create complex queries. Think about the problem to solve it clearly.
+
+__Date__: 6:50 PM 30th June 2014
+__Problem__: 3. FIx update- In the admin panel we need a daily deals section to view ads, control the ads placement. Meaning make a certain ad static at the top all the time, push a ad down, And even see the general daily deals feed section (None zipcode)
+__Solution__: learn background creation in cakephp
+
+
+
+/** 
+*
+* Checks weather the banners are old enough to be turned back to non-premium
+* and change the status to 0 , in case of non-premium
+* 
+* @return void 
+*/
+
+   protected function check_status(){
+   	 $data = $this->Banner->find('all');
+   	 foreach ($data as $Banners) {
+   	 	if ($Banners['Banner']['is_premium'] == 0) {
+   	 		if ((time() - strtotime($Banners['Banner']['created'])) > 5*24*60*60) {
+   	 			$this->Banner->updateAll(
+				    array('Banner.status' => 0));
+   	 		}
+   	 	else if ($Banners['Banner']['is_premium'] == 1) {
+   	 		if ((time() - strtotime($Banners['Banner']['created'])) > 14*24*60*60) {
+   	 			$this->Banner->updateAll(
+				    array('Banner.status' => 0));
+   	 		}
+
+   	 	}
+   	 	} 
+   	 } 
+   }
+
+
+
