@@ -336,8 +336,62 @@ $this->Model->save($this->data);
 
 
 
-__Fix__: 1. In admin panel, when editing, the is_premium part is setting defaulting to premium. 
-	2. After editing the premium part , it should redirect to the review premium part.
+__Fix__: 1. In admin panel, when editing, the is_premium part is setting defaulting to premium. --> Fixed
+	2. After editing the premium part , it should redirect to the review premium part. --> half fixed, __need to fix the redirect one.__
 
-	3. Fix the timestamp to latest one , when the user activate it from the edit option in mybanner.
+	3. Fix the timestamp to latest one , when the user activate it from the edit option in mybanner. --> __Solved by creating a "modified" column in the banner__
+
+
+__fixed__ : the flag the banner in the home index file.
+
+============================================================================================================================
+__DATE__: 7 July 2014
+
+__Banner Database Field Details__ :
+
+1. __status__ : 0 => non-active
+		1 => active
+
+2. __pause__: 0 => not-suspended
+	      1 => suspended.
+
+
+if ($banners['banner']['status'] == 0) {<li><span class="fl">Pending Review</span></li></div>}
+else if ($banners['banner']['status'] == 1 ) {<li><span class="fl"> Approved</span> </li>}
+else if ($banners['banner']['pause'] == 1) {<li><span class="fl">Suspended</span> </li>}
+
+
+__Suspending left__ Need to ask what pause do.
+
+
+__bug to fix__ : premium and non-premium expiry is not working.
+
+
+================
+
+__Working on__ : 4. Update fix- daily deals stream to match with zip code area location. This can work if users have to put in a zip code of there location during ad placement. Use zip code data to execute this
+
+__Solution__: 
+0. Modify the update customer, to update the billing zip,  and available states. 
+1. Reterive state related to the zipcode if present otherwise render the default daily deals. First search for the record with the zipcode for all the users.
+2. Then loop through the reterived data and show it in the daily deals.
+
+
+===============
+__Working on__: 3. Fix update- In the admin panel we need a daily deals section to view ads, control the ads placement. Meaning make a certain ad static at the top all the time, push an ad down, And even see the general daily deals feed section (None zipcode)
+
+__Solution__: 
+0. Add the daily deals section to view ads (Very easy).
+1. Control the ads placement.(???) , functionalities like making an add static at top(fixed), push an ad down
+to make add static, add a field to banner known as static and non-static. Render the static first. Similarily, non-static will be rendered next.
+  	__Implementing down or up banner__ : use sorting and swap to implement this. 
+2. add the general deal deals feed section(with none zipcode) (Easy).
+
+================
+
+__Working on__ : 6. Update fix- general tab categories should be connected to all categories in related in city's. Meaning general catagorie show all the ads listed in that state
+ 
+
+__Solution__: when clicked General,  use states table to select the records that have the same country name and different state, show them in daily deals section.
+
 
