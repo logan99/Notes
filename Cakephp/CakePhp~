@@ -3,11 +3,11 @@ __Date__: 20/06/14
 
 Cakephp uses a MVC architecure and OOPS concept. It utilizes the concept of DRY implementation. The main logic of the application goes into MODEL of the specific object. It is directly connected with the database.
 
-The views are the frontpage of the website. Views interact with the users and the mediater between the Views and Model is Controller. The controller is called the middle-pie or the nervours system of cakephp.
+The views are the frontpage of the website. Views interact with the users and the mediator between the Views and Model is Controller. The controller is called the middle-pie or the nervours system of cakephp.
 
 First we need to define the model of the object we need to define. We do it it singluar form. The plural form is used in the database for storage purposes. Cakephp goes well with most of the databases. In this case we will use mysql. 
 
-For example if the model name is Friend then the name of the table used in the databse is Friends.
+For example if the model name is Freind then the name of the table used in the databse is Friends.
 
 ==================================================================================================
 
@@ -364,10 +364,10 @@ else if ($banners['banner']['pause'] == 1) {<li><span class="fl">Suspended</span
 __Suspending left__ Need to ask what pause do.
 
 
-__bug to fix__ : premium and non-premium expiry is not working.
+__bug to fix__ : premium and non-premium expiry is not working. __NOW WORKING__
 
 
-================
+==============
 
 __Working on__ : 4. Update fix- daily deals stream to match with zip code area location. This can work if users have to put in a zip code of there location during ad placement. Use zip code data to execute this
 
@@ -395,3 +395,32 @@ __Working on__ : 6. Update fix- general tab categories should be connected to al
 __Solution__: when clicked General,  use states table to select the records that have the same country name and different state, show them in daily deals section.
 
 
+
+
+__Date__: 9/July/2014
+
+__Working on__ : Sorting according to first premium, then giving preference to modified time and then to id
+
+// );
+		$this->paginate = array(
+		    'limit' => 10,
+		    'order' => array('is_premium'=>'DESC','modified'=> 'DESC','id' => 'DESC'),
+		     );
+		$data = $this->paginate('Banner', $condition);
+
+
+__Fix__ : Fix the filter in new admin sections "Daily Deals Section" and "Pending Review" and "Premium".
+
+
+
+__Date__ : 10 July 2014
+__Working on__ :4. Update fix- daily deals stream to match with zip code area location. This can work if users have to put in a zip code of there location during ad placement. Use zip code data to execute this
+
+__Idea__: when banners data is fetched it fetches it with the customer table as well, because of the data model. 
+We fetch the customer zipcode and use $this->Banner->find('first', array (conditions);
+In view, check for user authenticatin , is any user is logged in then display the filtered zipcode data, otherwise show all the daily deals.
+
+__Implementation__ : tommorrow.
+
+
+__Idea to implement the up and down banner functionality__ : declare an empty array. fetch all the daily deals banner with status == 1. now when you push up or down, it just rearranges the array accordingly. If done properly, it will be done. __Note__: 
